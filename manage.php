@@ -49,16 +49,15 @@ $table = new table_sql('local_vxg_dashboard_table');
 echo $OUTPUT->header();
 
 $tableheaders = array(
-    '',
     get_string('name', 'local_vxg_dashboard'),
     get_string('roles', 'local_vxg_dashboard'),
     get_string('contextlevel', 'local_vxg_dashboard'),
-
+    get_string('edit'),
 );
 
 $table->define_headers($tableheaders);
 
-$table->define_columns(array('edit', 'name', 'roles', 'contextlevel'));
+$table->define_columns(array('name', 'roles', 'contextlevel', 'edit'));
 $table->define_baseurl($url);
 $table->sortable(false);
 $table->collapsible(false);
@@ -87,10 +86,10 @@ foreach ($dashboardsettings as $dashboardsetting) {
     } else {
         $dashboardname = get_string('dashboard', 'local_vxg_dashboard');
     }
-    $row[] = $editlinkpic . $deletelink;
     $row[] = $editlink = html_writer::link($editurl, $dashboardname);
     $row[] = local_vxg_dashboard_get_access_roles($dashboardsetting->id);
     $row[] = \context_helper::get_level_name($dashboardsetting->contextlevel);
+    $row[] = $editlinkpic . $deletelink;
 
     $table->add_data($row, $class);
 }
