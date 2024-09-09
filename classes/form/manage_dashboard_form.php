@@ -14,6 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * The form to edit a dashboard.
+ *
+ * @package    local_vxg_dashboard
+ * @copyright  2021 Alex Morris
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
 namespace local_vxg_dashboard\form;
 
 defined('MOODLE_INTERNAL') || die();
@@ -21,32 +29,36 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir . '/formslib.php');
 require_once($CFG->dirroot . '/local/vxg_dashboard/locallib.php');
 
-class manage_dashboard_form extends \moodleform
-{
-
+/**
+ * Form to edit a dashboard.
+ */
+class manage_dashboard_form extends \moodleform {
+    /**
+     * Form definition.
+     */
     public function definition() {
         global $CFG, $OUTPUT;
 
         $mform = $this->_form;
 
-        $roles    = local_vxg_dashboard_get_assignable_roles();
-        $size     = count($roles);
+        $roles = local_vxg_dashboard_get_assignable_roles();
+        $size = count($roles);
         $iconname = $this->_customdata['iconname'];
         $iconcomp = $this->_customdata['iconcomp'];
 
-        $styles = array('style' => 'width:50%;');
+        $styles = ['style' => 'width:50%;'];
         $mform->addElement('text', 'dashboard_name', get_string('name', 'local_vxg_dashboard'), $styles);
         $mform->setType('dashboard_name', PARAM_TEXT);
 
-        $coltwotring   = get_string('col2', 'local_vxg_dashboard');
+        $coltwotring = get_string('col2', 'local_vxg_dashboard');
         $colthreetring = get_string('col3', 'local_vxg_dashboard');
-        $colmoretring  = get_string('colmore', 'local_vxg_dashboard');
-        $classictring  = get_string('classic', 'local_vxg_dashboard');
+        $colmoretring = get_string('colmore', 'local_vxg_dashboard');
+        $classictring = get_string('classic', 'local_vxg_dashboard');
 
         $layouts = [
             'classic' => $classictring,
-            'col2'    => $coltwotring,
-            'col3'    => $colthreetring,
+            'col2' => $coltwotring,
+            'col3' => $colthreetring,
             'colmore' => $colmoretring];
 
         $select = $mform->addElement('select', 'layout', get_string('layout', 'local_vxg_dashboard'), $layouts);
@@ -54,9 +66,9 @@ class manage_dashboard_form extends \moodleform
         $select->setSize(4);
         $select->setSelected('classic');
 
-        $icongroup   = array();
+        $icongroup = [];
         $icongroup[] = &$mform->createElement('html', $OUTPUT->pix_icon($iconname, 'icon', $iconcomp,
-            array('class' => 'selected_icon')));
+            ['class' => 'selected_icon']));
         $icongroup[] = &$mform->createElement('html', '<button type="button" class="btn btn-primary" data-key="icon_picker">' .
             get_string('select-icon', 'local_vxg_dashboard') . '</button>');
         $mform->addGroup($icongroup, 'icongroup', get_string('icon', 'local_vxg_dashboard'), ' ', false);
@@ -90,7 +102,5 @@ class manage_dashboard_form extends \moodleform
         $mform->setType('returnurl', PARAM_LOCALURL);
 
         $this->add_action_buttons();
-
     }
-
 }

@@ -14,14 +14,21 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Define capabilities.
+ *
+ * @package    local_vxg_dashboard
+ * @copyright  2021 Alex Morris
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
-$capabilities = array(
-    'local/vxg_dashboard:managedashboard' => array(
+$capabilities = [
+    'local/vxg_dashboard:managedashboard' => [
         'riskbitmask'  => RISK_SPAM | RISK_XSS,
         'captype'      => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
-        'archetypes'   => array(
-        ),
-    ),
-);
+        'archetypes'   => [],
+    ],
+];

@@ -14,8 +14,20 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
+/**
+ * Upgrade process.
+ *
+ * @package    local_vxg_dashboard
+ * @copyright  2021 Alex Morris
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 
+/**
+ * Upgrade the local_vxg_dashboard plugin.
+ *
+ * @param int $oldversion The version we are upgrading from.
+ * @return bool
+ */
 function xmldb_local_vxg_dashboard_upgrade($oldversion) {
     global $DB;
 

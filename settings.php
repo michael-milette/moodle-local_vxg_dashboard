@@ -14,10 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Plugin settings.
+ *
+ * @package local_vxg_dashboard
+ * @copyright 2021 Alex Morris
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
 defined('MOODLE_INTERNAL') || die;
 
 $returnurl      = new moodle_url('/admin/search.php');
-$settingurl     = new moodle_url('/local/vxg_dashboard/manage.php', array('returnurl' => $returnurl));
+$settingurl     = new moodle_url('/local/vxg_dashboard/manage.php', ['returnurl' => $returnurl]);
 $managesettings = new admin_externalpage('local_vxg_dashboard',
     get_string('dashboard', 'local_vxg_dashboard'), $settingurl);
 

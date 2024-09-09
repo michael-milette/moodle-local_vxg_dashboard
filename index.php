@@ -14,6 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Display dashboard.
+ *
+ * @package local_vxg_dashboard
+ * @copyright 2021 Alex Morris
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
 use local_vxg_dashboard\event\vxg_dashboard_viewed;
 
 require_once('../../config.php');
@@ -23,7 +31,7 @@ $id = optional_param('id', 0, PARAM_INT);
 $contextid = optional_param('contextid', SYSCONTEXTID, PARAM_INT);
 $context = context::instance_by_id($contextid, MUST_EXIST);
 
-$edit  = optional_param('edit', null, PARAM_BOOL); // Turn editing on and off.
+$edit = optional_param('edit', null, PARAM_BOOL); // Turn editing on and off.
 $reset = optional_param('reset', null, PARAM_BOOL);
 $redirecturl = new moodle_url('/my');
 
@@ -37,7 +45,7 @@ if ($id == 0) {
     redirect($redirecturl);
 }
 
-$dashboardsettings = $DB->get_record('local_vxg_dashboard', array('id' => $id));
+$dashboardsettings = $DB->get_record('local_vxg_dashboard', ['id' => $id]);
 
 if ($dashboardsettings->dashboard_name == null && $dashboardsettings->dashboard_name == '') {
     $dashboard = get_string('dashboard', 'local_vxg_dashboard');
@@ -67,7 +75,7 @@ $userid    = $USER->id;
 $header    = $dashboard;
 $pagetitle = $dashboard;
 // Start setting up the page.
-$params = array('id' => $id);
+$params = ['id' => $id];
 // Default behaviour for system context; no contextid needed.
 if ($contextid != SYSCONTEXTID) {
     $params['contextid'] = $contextid;
@@ -87,12 +95,12 @@ if ($PAGE->user_allowed_editing()) {
         $USER->editing = $edit; // Change editing state.
     }
     // Add button for editing page.
-    $params = array('edit' => !$edit);
+    $params = ['edit' => !$edit];
 
     $resetbutton = '';
     $resetstring = get_string('resetpage', 'my');
-    $reseturl    = new moodle_url("/local/vxg_dashboard/index.php", array('id' => $id, 'contextid' => $contextid,
-        'edit' => 1, 'reset' => 1));
+    $reseturl    = new moodle_url("/local/vxg_dashboard/index.php", ['id' => $id, 'contextid' => $contextid,
+        'edit' => 1, 'reset' => 1]);
 
     if (has_capability('local/vxg_dashboard:managedashboard', $context)) {
 
@@ -112,7 +120,7 @@ if ($PAGE->user_allowed_editing()) {
         $editbutton   = $OUTPUT->single_button($editurl, $editstring);
 
         $returnurl    = new moodle_url('/local/vxg_dashboard/index.php', $params);
-        $manageurl    = new moodle_url("/local/vxg_dashboard/manage.php", array('returnurl' => $returnurl));
+        $manageurl    = new moodle_url("/local/vxg_dashboard/manage.php", ['returnurl' => $returnurl]);
         $managebutton = $OUTPUT->single_button($manageurl, get_string('manage', 'local_vxg_dashboard'));
         $PAGE->set_button($managebutton . $editbutton);
     }
@@ -127,11 +135,11 @@ if ($dashboardsettings->layout != 'classic') {
 echo $OUTPUT->header();
 if (!empty($dashboardsettings->layout)) {
     if ($dashboardsettings->layout == 'col2') {
-        echo html_writer::tag('div', $OUTPUT->custom_block_region('content'), array('class' => 'two-block-columns'));
+        echo html_writer::tag('div', $OUTPUT->custom_block_region('content'), ['class' => 'two-block-columns']);
     } else if ($dashboardsettings->layout == 'col3') {
-        echo html_writer::tag('div', $OUTPUT->custom_block_region('content'), array('class' => 'three-block-columns'));
+        echo html_writer::tag('div', $OUTPUT->custom_block_region('content'), ['class' => 'three-block-columns']);
     } else if ($dashboardsettings->layout == 'colmore') {
-        echo html_writer::tag('div', $OUTPUT->custom_block_region('content'), array('class' => 'auto-fit-block-columns'));
+        echo html_writer::tag('div', $OUTPUT->custom_block_region('content'), ['class' => 'auto-fit-block-columns']);
     } else {
         echo $OUTPUT->custom_block_region('content');
     }
@@ -140,7 +148,7 @@ if (!empty($dashboardsettings->layout)) {
 }
 
 // Trigger event, vxg dashboard viewed.
-$eventparams = array('context' => $PAGE->context, 'objectid' => $id);
+$eventparams = ['context' => $PAGE->context, 'objectid' => $id];
 $event = vxg_dashboard_viewed::create($eventparams);
 $event->trigger();
 

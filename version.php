@@ -14,8 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Plugin version.
+ *
+ * @package local_vxg_dashboard
+ * @copyright 2021 Alex Morris
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2021102100;
-$plugin->requires  = 2017111309;
+$plugin->version   = 2024090900;
 $plugin->component = 'local_vxg_dashboard';
+$plugin->requires  = 2017111300; // Requires Moodle 3.4 or later.
+$plugin->release   = '2.5.2';
+$plugin->maturity  = MATURITY_STABLE;

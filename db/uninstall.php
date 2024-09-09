@@ -14,10 +14,23 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Uninstall process.
+ *
+ * @package    local_vxg_dashboard
+ * @copyright  2021 Alex Morris
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../locallib.php');
 
+/**
+ * Uninstall process.
+ *
+ * @return bool
+ */
 function xmldb_local_vxg_dashboard_uninstall() {
     global $CFG, $DB;
     local_vxg_dashboard_plugin_uninstall();

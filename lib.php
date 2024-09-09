@@ -14,14 +14,37 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Dashboard library functions.
+ *
+ * @package local_vxg_dashboard
+ * @copyright 2021 Alex Morris
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/locallib.php');
 
+/**
+ * Extend the settings navigation with the local_vxg_dashboard settings.
+ *
+ * @package local_vxg_dashboard
+ * @param   settings_navigation $settingsnav The settings navigation object.
+ * @param   context $context The context object.
+ * @return  void
+ */
 function local_vxg_dashboard_extend_settings_navigation(settings_navigation $settingsnav, context $context) {
     return; // Not used anymore!
 }
 
+/**
+ * Extend the global navigation with the local_vxg_dashboard settings.
+ *
+ * @package local_vxg_dashboard
+ * @param global_navigation $nav The global navigation object.
+ * @return void
+ */
 function local_vxg_dashboard_extend_navigation(global_navigation $nav) {
     global $CFG, $PAGE, $USER, $DB;
 
@@ -35,9 +58,11 @@ function local_vxg_dashboard_extend_navigation(global_navigation $nav) {
 
         // Get roles for dashboard.
         $userroles      = local_vxg_dashboard_get_user_role_ids();
-        $dashboardroles = array();
-        $dashboardroles = $DB->get_records('local_vxg_dashboard_right',
-        array('objectid' => $dashboardsetting->id, 'objecttype' => 'dashboard'));
+        $dashboardroles = [];
+        $dashboardroles = $DB->get_records(
+            'local_vxg_dashboard_right',
+            ['objectid' => $dashboardsetting->id, 'objecttype' => 'dashboard']
+        );
         // Check user has roles.
         $userhasrole = local_vxg_dashboard_user_role_check($dashboardsetting->id);
 
@@ -48,7 +73,7 @@ function local_vxg_dashboard_extend_navigation(global_navigation $nav) {
         } else {
             $name = $dashboardsetting->dashboard_name;
         }
-        $url = new moodle_url('/local/vxg_dashboard/index.php', array('id' => $dashboardsetting->id));
+        $url = new moodle_url('/local/vxg_dashboard/index.php', ['id' => $dashboardsetting->id]);
         if (isset($dashboardsetting->icon) && !empty($dashboardsetting->icon)) {
             $icon = new pix_icon($iconarr[1], $name, $iconarr[0]);
         } else {
@@ -75,7 +100,5 @@ function local_vxg_dashboard_extend_navigation(global_navigation $nav) {
         if ($PAGE->url->compare($url, URL_MATCH_PARAMS)) {
             $newnode->make_active();
         }
-
     }
-
 }

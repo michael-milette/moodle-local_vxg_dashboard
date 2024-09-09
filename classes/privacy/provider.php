@@ -14,6 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Privacy Subsystem.
+ *
+ * @package   local_vxg_dashboard
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright http://veloxnet.hu <lms@veloxnet.hu>
+ */
+
 namespace local_vxg_dashboard\privacy;
 
 use core_privacy\local\metadata\collection;
@@ -22,46 +30,43 @@ use core_privacy\local\request\contextlist;
 use core_privacy\local\request\userlist;
 use core_privacy\local\request\approved_userlist;
 
-defined('MOODLE_INTERNAL') || die();
-
-// This plugin does store personal user data.
+/**
+ * This plugin does store personal user data.
+ */
 class provider implements
     \core_privacy\local\metadata\provider,
     \core_privacy\local\request\core_userlist_provider,
-    \core_privacy\local\request\plugin\provider
- {
-
-    
+    \core_privacy\local\request\plugin\provider {
     /**
      * Returns metadata.
      *
      * @param collection $collection The initialised collection to add items to.
      * @return collection A listing of user data stored through this system.
      */
-    public static function get_metadata(collection $collection) : collection {
+    public static function get_metadata(collection $collection): collection {
 
         $collection->add_database_table(
             'local_vxg_dashboard_right',
-             [
+            [
                 'userid' => 'privacy:metadata:local_vxg_dashboard_right:userid',
-                'roleid' => 'privacy:metadata:local_vxg_dashboard_right:roleid',   
-                'children' => 'privacy:metadata:local_vxg_dashboard_right:children', 
-                'righttype' => 'privacy:metadata:local_vxg_dashboard_right:righttype', 
-                'timemodified' => 'privacy:metadata:local_vxg_dashboard_right:timemodified', 
-                'usermodified' => 'privacy:metadata:local_vxg_dashboard_right:usermodified',      
-             ],
+                'roleid' => 'privacy:metadata:local_vxg_dashboard_right:roleid',
+                'children' => 'privacy:metadata:local_vxg_dashboard_right:children',
+                'righttype' => 'privacy:metadata:local_vxg_dashboard_right:righttype',
+                'timemodified' => 'privacy:metadata:local_vxg_dashboard_right:timemodified',
+                'usermodified' => 'privacy:metadata:local_vxg_dashboard_right:usermodified',
+            ],
             'privacy:metadata:local_vxg_dashboard_right'
         );
         return $collection;
     }
 
-     /**
+    /**
      * Get the list of contexts that contain user information for the specified user.
      *
      * @param int $userid The user to search.
      * @return contextlist $contextlist The contextlist containing the list of contexts used in this plugin.
      */
-    public static function get_contexts_for_userid(int $userid) : contextlist {
+    public static function get_contexts_for_userid(int $userid): contextlist {
         return new contextlist();
     }
 
@@ -104,6 +109,4 @@ class provider implements
      */
     public static function delete_data_for_user(approved_contextlist $contextlist) {
     }
-   
 }
-

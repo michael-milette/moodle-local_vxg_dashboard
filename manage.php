@@ -14,6 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Dashboard manager.
+ *
+ * @package local_vxg_dashboard
+ * @copyright 2021 Alex Morris
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
 require_once('../../config.php');
 require_once($CFG->libdir . '/tablelib.php');
 require_once(__DIR__ . '/locallib.php');
@@ -48,16 +56,16 @@ $table = new table_sql('local_vxg_dashboard_table');
 
 echo $OUTPUT->header();
 
-$tableheaders = array(
+$tableheaders = [
     get_string('name', 'local_vxg_dashboard'),
     get_string('roles', 'local_vxg_dashboard'),
     get_string('contextlevel', 'local_vxg_dashboard'),
     get_string('edit'),
-);
+];
 
 $table->define_headers($tableheaders);
 
-$table->define_columns(array('name', 'roles', 'contextlevel', 'edit'));
+$table->define_columns(['name', 'roles', 'contextlevel', 'edit']);
 $table->define_baseurl($url);
 $table->sortable(false);
 $table->collapsible(false);
@@ -65,20 +73,20 @@ $table->setup();
 $class = '';
 
 foreach ($dashboardsettings as $dashboardsetting) {
-    $row   = array();
+    $row = [];
     $class = '';
 
     $linkurl = new moodle_url('/local/vxg_dashboard/index.php', ['id' => $dashboardsetting->id]);
 
     $editpicurl = new moodle_url('/pix/t/editinline.svg');
     $editurl    = new moodle_url('/local/vxg_dashboard/edit.php',
-        array('id' => $dashboardsetting->id, 'returnurl' => $returnurl));
+        ['id' => $dashboardsetting->id, 'returnurl' => $returnurl]);
 
     $editlinkpic = html_writer::link($editurl, $OUTPUT->pix_icon('t/editinline', 'Edit'));
 
     $deletepicurl = new moodle_url('/pix/t/delete.svg');
     $deleteurl    = new moodle_url('/local/vxg_dashboard/delete.php',
-        array('id' => $dashboardsetting->id, 'sesskey' => sesskey(), 'returnurl' => $returnurl));
+        ['id' => $dashboardsetting->id, 'sesskey' => sesskey(), 'returnurl' => $returnurl]);
 
     $deletelink = html_writer::link($deleteurl,
     $OUTPUT->pix_icon('t/delete', get_string('delete', 'local_vxg_dashboard')));
@@ -101,14 +109,14 @@ foreach ($dashboardsettings as $dashboardsetting) {
     $table->add_data($row, $class);
 }
 
-$newurl = new moodle_url('/local/vxg_dashboard/edit.php', array('returnurl' => $returnurl));
+$newurl = new moodle_url('/local/vxg_dashboard/edit.php', ['returnurl' => $returnurl]);
 $newbtn = html_writer::link($newurl,
     html_writer::tag('button', get_string('add_new', 'local_vxg_dashboard'),
-        array('class' => 'btn btn-primary', 'style' => 'margin:5px;')));
+        ['class' => 'btn btn-primary', 'style' => 'margin:5px;']));
 
 $returnbtn = html_writer::link($returnurl,
     html_writer::tag('button', get_string('back', 'local_vxg_dashboard'),
-        array('class' => 'btn btn-secondary', 'style' => 'margin:5px;float:right;')));
+        ['class' => 'btn btn-secondary', 'style' => 'margin:5px;float:right;']));
 
 echo $newbtn;
 echo $returnbtn;

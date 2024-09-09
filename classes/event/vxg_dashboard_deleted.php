@@ -24,8 +24,6 @@
 
 namespace local_vxg_dashboard\event;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * The dashboard deleted event class.
  *
@@ -44,10 +42,20 @@ class vxg_dashboard_deleted extends \core\event\base {
         $this->data['edulevel'] = self::LEVEL_OTHER;
     }
 
+    /**
+     * Returns local_vxg_dashboard event name.
+     *
+     * @return string
+     */
     public static function get_name() {
         return get_string('eventvxgdashboarddeleted', 'local_vxg_dashboard');
     }
 
+    /**
+     * Returns the description of the event.
+     *
+     * @return string
+     */
     public function get_description() {
         return "The user with id '$this->userid' deleted the vxg dashboard with id `$this->objectid`.";
     }

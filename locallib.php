@@ -22,8 +22,11 @@
  * @copyright http://veloxnet.hu <lms@veloxnet.hu>
  */
 
-defined('MOODLE_INTERNAL') || die();
-
+/**
+ * Reset to default dashboard settings.
+ * @param mixed $dashboardid
+ * @return void
+ */
 function local_vxg_dashboard_reset_default_dashboard($dashboardid) {
     global $CFG, $DB;
 
@@ -38,6 +41,11 @@ function local_vxg_dashboard_reset_default_dashboard($dashboardid) {
     local_vxg_dashboard_delete_dashboard_blocks($dashboardid);
 }
 
+/**
+ * Delete dashboard blocks.
+ * @param mixed $dashboardid
+ * @return void
+ */
 function local_vxg_dashboard_delete_dashboard_blocks($dashboardid = null) {
     global $CFG, $DB;
 
@@ -51,7 +59,11 @@ function local_vxg_dashboard_delete_dashboard_blocks($dashboardid = null) {
     }
 }
 
-// Called when plugin is uninstalled.
+/**
+ * Called when plugin is uninstalled.
+ *
+ * @return void
+ */
 function local_vxg_dashboard_plugin_uninstall() {
     global $CFG, $DB;
 
@@ -71,11 +83,16 @@ function local_vxg_dashboard_plugin_uninstall() {
     }
 }
 
+/**
+ * Get assignable roles.
+ *
+ * @return array An array of role names.
+ */
 function local_vxg_dashboard_get_assignable_roles() {
     global $DB;
 
     $roleids = $DB->get_fieldset_select('role_context_levels', 'DISTINCT roleid',
-        'contextlevel = ? OR contextlevel = ? OR contextlevel = ?', array('10', '40', '50'));
+        'contextlevel = ? OR contextlevel = ? OR contextlevel = ?', ['10', '40', '50']);
 
     $insql = 'IN (' . implode(',', $roleids) . ')';
 
@@ -103,7 +120,7 @@ function local_vxg_dashboard_get_user_role_ids($contextid=null) {
         $userroles = get_user_roles(context::instance_by_id($contextid), $USER->id);
     }
 
-    $rolenames = array();
+    $rolenames = [];
     foreach ($userroles as $role) {
         $rolenames[] = $role->roleid;
     }
@@ -112,13 +129,19 @@ function local_vxg_dashboard_get_user_role_ids($contextid=null) {
 
 }
 
+/**
+ * Get role names for a dashboard.
+ *
+ * @param int|null $contextid (optional) Get role names within a specific context.
+ * @return string A comma-separated list of role names.
+ */
 function local_vxg_dashboard_get_access_roles($dashboardid) {
     global $DB;
-    $roles      = $DB->get_records('local_vxg_dashboard_right', array('objectid' => $dashboardid, 'objecttype' => 'dashboard'));
+    $roles      = $DB->get_records('local_vxg_dashboard_right', ['objectid' => $dashboardid, 'objecttype' => 'dashboard']);
     $roleids    = array_column($roles, 'roleid');
     $rolenames = $DB->get_records_list('role', 'id', $roleids, $sort = '', $fields = 'shortname');
-    return implode(', ', array_column($rolenames, 'shortname'));
 
+    return implode(', ', array_column($rolenames, 'shortname'));
 }
 
 /**
@@ -132,7 +155,7 @@ function local_vxg_dashboard_user_role_check($dashboardid, $contextid=SYSCONTEXT
     global $DB, $USER;
 
     $dashboardroles = $DB->get_records('local_vxg_dashboard_right',
-        array('objectid' => $dashboardid, 'objecttype' => 'dashboard'));
+        ['objectid' => $dashboardid, 'objecttype' => 'dashboard']);
 
     $userroles = local_vxg_dashboard_get_user_role_ids($contextid);
 
