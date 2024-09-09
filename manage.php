@@ -68,6 +68,8 @@ foreach ($dashboardsettings as $dashboardsetting) {
     $row   = array();
     $class = '';
 
+    $linkurl = new moodle_url('/local/vxg_dashboard/index.php', ['id' => $dashboardsetting->id]);
+
     $editpicurl = new moodle_url('/pix/t/editinline.svg');
     $editurl    = new moodle_url('/local/vxg_dashboard/edit.php',
         array('id' => $dashboardsetting->id, 'returnurl' => $returnurl));
@@ -86,8 +88,8 @@ foreach ($dashboardsettings as $dashboardsetting) {
     } else {
         $dashboardname = get_string('dashboard', 'local_vxg_dashboard');
     }
-    $row[] = $editlink = html_writer::link($editurl, $dashboardname);
     $row[] = local_vxg_dashboard_get_access_roles($dashboardsetting->id);
+    $row[] = $editlink = html_writer::link($linkurl, $dashboardname);
     $row[] = \context_helper::get_level_name($dashboardsetting->contextlevel);
     $row[] = $editlinkpic . $deletelink;
 
