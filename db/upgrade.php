@@ -45,7 +45,8 @@ function xmldb_local_vxg_dashboard_upgrade($oldversion) {
         }
 
         // Vxg_dashboard savepoint reached.
-        upgrade_plugin_savepoint(true, 2021102100, 'local', 'vxg_dashboard');
+        upgrade_plugin_savepoint(true, 2024090900, 'local', 'vxg_dashboard');
     }
 
+    return true;
 }
