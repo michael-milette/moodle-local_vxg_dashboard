@@ -35,7 +35,7 @@ $returnurl = optional_param('returnurl', '', PARAM_LOCALURL);
 
 if (!empty($returnurl)) {
     // Unescape any ampersands, etc.
-    $returnurl = htmlspecialchars_decode($returnurl);
+    $returnurl = urldecode($returnurl);
 }
 
 require_login();

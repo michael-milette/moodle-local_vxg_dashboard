@@ -37,7 +37,7 @@ if (empty($returnurl)) {
     $returnurl = new moodle_url('/my');
 } else {
     // Unescape any ampersands, etc.
-    $returnurl = htmlspecialchars_decode($returnurl);
+    $returnurl = urldecode($returnurl);
 }
 
 $url = new moodle_url('/local/vxg_dashboard/manage.php');
