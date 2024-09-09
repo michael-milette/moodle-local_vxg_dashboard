@@ -88,9 +88,14 @@ foreach ($dashboardsettings as $dashboardsetting) {
     } else {
         $dashboardname = get_string('dashboard', 'local_vxg_dashboard');
     }
-    $row[] = local_vxg_dashboard_get_access_roles($dashboardsetting->id);
     $row[] = $editlink = html_writer::link($linkurl, $dashboardname);
+    $roles = local_vxg_dashboard_get_access_roles($dashboardsetting->id);
+    if (empty($roles)) {
+        $roles = '&lt;' . get_string('all') . '&gt;';
+    }
+    $row[] = $roles;
     $row[] = \context_helper::get_level_name($dashboardsetting->contextlevel);
+    $row[] = local_vxg_dashboard_get_access_roles($dashboardsetting->id);
     $row[] = $editlinkpic . $deletelink;
 
     $table->add_data($row, $class);
